@@ -2,38 +2,59 @@ package Bank;
 
 /**
  * Classe que representa um cliente do banco.
- * Cada cliente possui CPF, nome e uma conta corrente associada.
+ * Cada cliente possui CPF, nome e uma conta (poupança ou corrente).
  */
 public class Cliente {
-    private final String cpf; // CPF do cliente (único)
-    private final String nome; // Nome do cliente
-    private final ContaCorrente conta; // Conta corrente associada ao cliente
-
+    private final String cpf;
+    private final String nome;
+    private final Conta conta;
 
     /**
-     * Construtor do cliente.
-     * Valida os dados e cria automaticamente uma conta corrente vinculada.
-     *
-     * @param cpf  CPF do cliente (não pode ser nulo ou vazio)
-     * @param nome Nome do cliente (não pode ser nulo ou vazio)
+     * Construtor para cliente com conta corrente padrão.
+     * 
+     * @param cpf CPF do cliente
+     * @param nome Nome do cliente
      */
     public Cliente(String cpf, String nome) {
-        // Validação básica
+        validarDados(cpf, nome);
+        this.cpf = cpf;
+        this.nome = nome;
+        this.conta = new ContaCorrente(nome);
+    }
+
+    /**
+     * Construtor para cliente com opção de conta poupança.
+     * 
+     * @param cpf CPF do cliente
+     * @param nome Nome do cliente
+     * @param contaPoupanca true para conta poupança, false para corrente
+     * @param taxaJuros Taxa de juros mensal da conta poupança (ignorável se conta corrente)
+     */
+    public Cliente(String cpf, String nome, boolean contaPoupanca, double taxaJuros) {
+        validarDados(cpf, nome);
+        this.cpf = cpf;
+        this.nome = nome;
+        if (contaPoupanca) {
+            this.conta = new ContaPoupanca(nome, taxaJuros);
+        } else {
+            this.conta = new ContaCorrente(nome);
+        }
+    }
+
+    /**
+     * Valida dados obrigatórios.
+     */
+    private void validarDados(String cpf, String nome) {
         if (cpf == null || cpf.trim().isEmpty()) {
             throw new IllegalArgumentException("CPF não pode ser vazio ou nulo");
         }
         if (nome == null || nome.trim().isEmpty()) {
             throw new IllegalArgumentException("Nome não pode ser vazio ou nulo");
         }
-
-        this.cpf = cpf;
-        this.nome = nome;
-        this.conta = new ContaCorrente(nome); // Cria a conta para o cliente
     }
 
-
-     /**
-     * Exibe os dados do cliente, incluindo a conta vinculada.
+    /**
+     * Exibe os dados do cliente.
      */
     public void exibirDados() {
         System.out.println("\n=== Dados do cliente ===");
@@ -42,7 +63,7 @@ public class Cliente {
         System.out.println("Número da conta: " + conta.getNumeroConta());
     }
 
-    // Getters (acessores)
+    // Getters
     public String getCpf() {
         return cpf;
     }
@@ -51,8 +72,9 @@ public class Cliente {
         return nome;
     }
 
-    public ContaCorrente getConta() {
+    public Conta getConta() {
         return conta;
     }
-
 }
+
+

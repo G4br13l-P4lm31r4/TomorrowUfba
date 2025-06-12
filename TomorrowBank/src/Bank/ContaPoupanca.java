@@ -1,18 +1,30 @@
 package Bank;
 
 /**
- * Classe que representa uma conta corrente.
- * Implementa as operações básicas de conta.
+ * Classe que representa uma conta poupança.
+ * Permite aplicação de juros sobre o saldo.
  */
-public class ContaCorrente extends Conta {
+public class ContaPoupanca extends Conta {
+    private double taxaJuros; // Taxa de juros mensal
 
-    public ContaCorrente(String titular) {
+    public ContaPoupanca(String titular, double taxaJuros) {
         super(titular);
+        this.taxaJuros = taxaJuros;
+    }
+
+    /**
+     * Aplica juros sobre o saldo da poupança.
+     */
+    public void aplicarJuros() {
+        double rendimento = saldo * taxaJuros;
+        saldo += rendimento;
+        System.out.printf("Juros aplicados: R$ %.2f\n", rendimento);
+        consultarSaldo();
     }
 
     @Override
     public void consultarSaldo() {
-        System.out.println("\n=== Saldo da Conta Corrente ===");
+        System.out.println("\n=== Saldo da Conta Poupança ===");
         System.out.println("Titular: " + titular);
         System.out.println("Número da conta: " + numeroConta);
         System.out.printf("Saldo atual: R$ %.2f\n", saldo);
