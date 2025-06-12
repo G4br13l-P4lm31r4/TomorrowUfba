@@ -27,7 +27,6 @@ O sistema simula as operações básicas de um banco digital, permitindo:
 ## 🛠️ Tecnologias utilizadas
 
 - **Java** (linguagem de programação)
-- **JDK 17** (ou compatível)
 - Terminal/Console para execução
 
 ## 📂 Estrutura do projeto
